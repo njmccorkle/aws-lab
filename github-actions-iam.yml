@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: Defines user, policy, and role for a Github Actions user
+
+Resources:
+  GithubActionsRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !Join ["", ["arn:aws:iam::", !Ref AWS::AccountId, ":root"]]
+            Action: "sts:AssumeRole"
+      Policies:
+        - PolicyName: "GithubActionsRole"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: "Allow"
+                Action: "s3:*"
+                Resource: "*"
+
+  GithubActionsPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: GithubActionsPolicy
+      Users:
+       - !Ref GithubActionsUser
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action: "sts:AssumeRole"
+            Resource: !GetAtt GithubActionsRole.Arn
+
+  GithubActionsUser:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: GithubActions
