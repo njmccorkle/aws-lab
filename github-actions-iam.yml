@@ -12,14 +12,18 @@ Resources:
           - Effect: Allow
             Principal:
               AWS: !Join ["", ["arn:aws:iam::", !Ref AWS::AccountId, ":root"]]
-            Action: ["sts:AssumeRole", "sts:TagSession"]
+            Action: 
+              - sts:AssumeRole
+              - sts:TagSession
       Policies:
         - PolicyName: "GithubActionsRole"
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
               - Effect: "Allow"
-                Action: "s3:*"
+                Action:
+                  - "s3:*"
+                  - cloudformation:*
                 Resource: "*"
 
   GithubActionsPolicy:
@@ -32,7 +36,9 @@ Resources:
         Version: 2012-10-17
         Statement:
           - Effect: Allow
-            Action: ["sts:AssumeRole", "sts:TagSession"]
+            Action:
+              - sts:AssumeRole
+              - sts:TagSession
             Resource: !GetAtt GithubActionsRole.Arn
 
   GithubActionsUser:
