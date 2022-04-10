@@ -12,7 +12,7 @@ Resources:
           - Effect: Allow
             Principal:
               AWS: !Join ["", ["arn:aws:iam::", !Ref AWS::AccountId, ":root"]]
-            Action: 
+            Action:
               - sts:AssumeRole
               - sts:TagSession
       Policies:
@@ -25,7 +25,6 @@ Resources:
                   - "s3:*"
                   - cloudformation:*
                 Resource: "*"
-
   GithubActionsPolicy:
     Type: AWS::IAM::Policy
     Properties:
@@ -40,7 +39,6 @@ Resources:
               - sts:AssumeRole
               - sts:TagSession
             Resource: !GetAtt GithubActionsRole.Arn
-
   GithubActionsUser:
     Type: AWS::IAM::User
     Properties:
