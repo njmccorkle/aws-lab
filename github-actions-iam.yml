@@ -34,6 +34,9 @@ Resources:
           - Effect: Allow
             Action: "sts:AssumeRole"
             Resource: !GetAtt GithubActionsRole.Arn
+          - Effect: Allow
+            Action: "sts:TagSession"
+            Resource: !GetAtt GithubActionsRole.Arn
 
   GithubActionsUser:
     Type: AWS::IAM::User
