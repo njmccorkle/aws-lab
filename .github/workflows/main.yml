@@ -4,11 +4,11 @@ name: Deploy CloudFormation Stacks
 on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-    inputs:
-      region:
-        description: "AWS Region"
-        required: true
-        default: "us-east-1"
+    # inputs:
+    #   region:
+    #     description: "AWS Region"
+    #     required: true
+    #     default: "us-east-1"
       # bucketName:
       #   description: "S3 Bucket Name"
       #   required: true
@@ -25,10 +25,13 @@ jobs:
         id: creds
         uses: aws-actions/configure-aws-credentials@v1
         with:
+          aws-region: us-east-1
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ github.event.inputs.region }}
-
+          role-to-assume: 
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          role-duration-seconds: 1200
+          role-session-name: GithubActionSession
       - name: Deploy CloudFormation Stacks
         id: aws-lab-master
         uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
