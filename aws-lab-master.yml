@@ -2,10 +2,10 @@ AWSTemplateFormatVersion: 2010-09-09
 
 Description: Master CF template for AWS Lab
 
-Parameters:
-  BucketName:
-    Description: Name of the Bucket
-    Type: String
+# Parameters:
+#   BucketName:
+#     Description: Name of the Bucket
+#     Type: String
 
 s3Bucket:
   Type: AWS::S3::Bucket
