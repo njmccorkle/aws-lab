@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion: "2010-09-09"
+AWSTemplateFormatVersion: '2010-09-09'
 Description:
   Cloudformation for a 3-tier (+reserved tier) VPC across three AZs.
 Metadata:
@@ -27,7 +27,7 @@ Resources:
       CidrBlock: 10.16.0.0/20
       AssignIpv6AddressOnCreation: true
       Ipv6CidrBlock:
-        !Sub:
+        Fn::Sub:
           - "${VpcPart}${SubnetPart}"
           - SubnetPart: "00::/64"
             VpcPart:
@@ -44,7 +44,7 @@ Resources:
       CidrBlock: 10.16.64.0/20
       AssignIpv6AddressOnCreation: true
       Ipv6CidrBlock:
-        !Sub:
+        Fn::Sub:
           - "${VpcPart}${SubnetPart}"
           - SubnetPart: "04::/64"
             VpcPart:
@@ -61,7 +61,7 @@ Resources:
       CidrBlock: 10.16.128.0/20
       AssignIpv6AddressOnCreation: true
       Ipv6CidrBlock:
-        !Sub:
+        Fn::Sub:
           - "${VpcPart}${SubnetPart}"
           - SubnetPart: "08::/64"
             VpcPart:
@@ -78,7 +78,7 @@ Resources:
       CidrBlock: 10.16.16.0/20
       AssignIpv6AddressOnCreation: true
       Ipv6CidrBlock:
-        !Sub:
+        Fn::Sub:
           - "${VpcPart}${SubnetPart}"
           - SubnetPart: "01::/64"
             VpcPart:
@@ -95,7 +95,7 @@ Resources:
       CidrBlock: 10.16.80.0/20
       AssignIpv6AddressOnCreation: true
       Ipv6CidrBlock:
-        !Sub:
+        Fn::Sub:
           - "${VpcPart}${SubnetPart}"
           - SubnetPart: "05::/64"
             VpcPart:
@@ -112,7 +112,7 @@ Resources:
       CidrBlock: 10.16.144.0/20
       AssignIpv6AddressOnCreation: true
       Ipv6CidrBlock:
-        !Sub:
+        Fn::Sub:
           - "${VpcPart}${SubnetPart}"
           - SubnetPart: "09::/64"
             VpcPart:
@@ -129,7 +129,7 @@ Resources:
       CidrBlock: 10.16.32.0/20
       AssignIpv6AddressOnCreation: true
       Ipv6CidrBlock:
-        !Sub:
+        Fn::Sub:
           - "${VpcPart}${SubnetPart}"
           - SubnetPart: "02::/64"
             VpcPart:
@@ -146,7 +146,7 @@ Resources:
       CidrBlock: 10.16.96.0/20
       AssignIpv6AddressOnCreation: true
       Ipv6CidrBlock:
-        !Sub:
+        Fn::Sub:
           - "${VpcPart}${SubnetPart}"
           - SubnetPart: "06::/64"
             VpcPart:
@@ -163,7 +163,7 @@ Resources:
       CidrBlock: 10.16.160.0/20
       AssignIpv6AddressOnCreation: true
       Ipv6CidrBlock:
-        !Sub:
+        Fn::Sub:
           - "${VpcPart}${SubnetPart}"
           - SubnetPart: "0A::/64"
             VpcPart:
@@ -180,7 +180,7 @@ Resources:
       CidrBlock: 10.16.48.0/20
       AssignIpv6AddressOnCreation: true
       Ipv6CidrBlock:
-        !Sub:
+        Fn::Sub:
           - "${VpcPart}${SubnetPart}"
           - SubnetPart: "03::/64"
             VpcPart:
@@ -197,7 +197,7 @@ Resources:
       CidrBlock: 10.16.112.0/20
       AssignIpv6AddressOnCreation: true
       Ipv6CidrBlock:
-        !Sub:
+        Fn::Sub:
           - "${VpcPart}${SubnetPart}"
           - SubnetPart: "07::/64"
             VpcPart:
@@ -214,7 +214,7 @@ Resources:
       CidrBlock: 10.16.176.0/20
       AssignIpv6AddressOnCreation: true
       Ipv6CidrBlock:
-        !Sub:
+        Fn::Sub:
           - "${VpcPart}${SubnetPart}"
           - SubnetPart: "0B::/64"
             VpcPart:
