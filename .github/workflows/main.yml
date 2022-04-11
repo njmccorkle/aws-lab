@@ -40,6 +40,6 @@ jobs:
         uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
         with:
           name: aws-lab-master
-          template: cloudformation-templates/aws-lab-master.yml
+          template: cloudformation-templates/vpc.yml
           # parameter-overrides: >-
           #   BucketName=${{ github.event.inputs.bucketName }}
