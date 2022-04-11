@@ -11,8 +11,3 @@ Resources:
         ServerSideEncryptionConfiguration:
           - ServerSideEncryptionByDefault:
               SSEAlgorithm: AES256
-  VpcStack:
-    Type: AWS::CloudFormation::Stack
-    DeletionPolicy: Retain
-    Properties:
-      TemplateURL: 
