@@ -36,6 +36,7 @@ Resources:
                   - cloudformation:TagResource
                   - cloudformation:UpdateStack
                   - cloudformation:ValidateTemplate
+                  - cloudformation:CreateChangeSet
                 Resource: "*"
               - Effect: "Allow"
                 Action:
