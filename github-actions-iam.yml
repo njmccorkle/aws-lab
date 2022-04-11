@@ -16,14 +16,56 @@ Resources:
               - sts:AssumeRole
               - sts:TagSession
       Policies:
-        - PolicyName: "GithubActionsRole"
+        - PolicyName: "GithubActionsS3Permissions"
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
               - Effect: "Allow"
                 Action:
-                  - "s3:*"
-                  - cloudformation:*
+                  - s3:*
+                  - cloudformation:DescribeStacks,
+                  - cloudformation:ListChangeSets
+                  - cloudformation:ListExports
+                  - cloudformation:ListImports
+                  - cloudformation:ListStacks
+                  - cloudformation:CreateStack
+                  - cloudformation:DeleteStack
+                  - cloudformation:TagResource
+                  - cloudformation:UpdateStack
+                  - cloudformation:ValidateTemplate
+                Resource: "*"
+        - PolicyName: "GithubActionsCloudformationPermissions"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: "Allow"
+                Action:
+                  - cloudformation:DescribeStacks,
+                  - cloudformation:ListChangeSets
+                  - cloudformation:ListExports
+                  - cloudformation:ListImports
+                  - cloudformation:ListStacks
+                  - cloudformation:CreateStack
+                  - cloudformation:DeleteStack
+                  - cloudformation:TagResource
+                  - cloudformation:UpdateStack
+                  - cloudformation:ValidateTemplate
+                Resource: "*"
+        - PolicyName: "GithubActionsVpcPermissions"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: "Allow"
+                Action:
+                  - ec2:CreateVpc
+                  - ec2:CreateSubnet
+                  - ec2:DescribeAvailabilityZones
+                  - ec2:CreateRouteTable
+                  - ec2:CreateRoute"
+                  - ec2:CreateInternetGateway 
+                  - ec2:AttachInternetGateway 
+                  - ec2:AssociateRouteTable 
+                  - ec2:ModifyVpcAttribute
                 Resource: "*"
   GithubActionsPolicy:
     Type: AWS::IAM::Policy
