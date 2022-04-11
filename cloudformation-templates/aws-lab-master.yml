@@ -1,11 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: Master CF template for AWS Lab
 
-# Parameters:
-#   BucketName:
-#     Description: Name of the Bucket
-#     Type: String
-
 Resources:
   s3Bucket:
     Type: AWS::S3::Bucket
@@ -16,3 +11,8 @@ Resources:
         ServerSideEncryptionConfiguration:
           - ServerSideEncryptionByDefault:
               SSEAlgorithm: AES256
+  VpcStack:
+    Type: AWS::CloudFormation::Stack
+    DeletionPolicy: Retain
+    Properties:
+      TemplateURL: 
