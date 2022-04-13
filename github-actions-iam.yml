@@ -66,6 +66,24 @@ Resources:
                   # - ec2:AssociateVpcCidrBlockRequest
                   - ec2:*
                 Resource: "*"
+              - Effect: "Allow"
+                Action:
+                  - iam:GetRole
+                  - iam:CreateRole
+                  - iam:DeleteRole
+                  - iam:GetRolePolicy
+                  - iam:CreateRolePolicy
+                  - iam:DeleteRolePolicy
+                  - iam:PutRolePolicy
+                  - iam:PassRole
+                Resource: "*"
+              - Effect: "Allow"
+                Action:
+                  - lambda:GetFunction
+                  - lambda:CreateFunction
+                  - lambda:DeleteFunction
+                  - lambda:InvokeFunction
+                Resource: "*"
   GithubActionsPolicy:
     Type: AWS::IAM::Policy
     Properties:
