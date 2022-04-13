@@ -18,207 +18,389 @@ Resources:
     Properties:
       VpcId: !Ref VPC
       AmazonProvidedIpv6CidrBlock: true
+  InternetGateway:
+    Type: 'AWS::EC2::InternetGateway'
+    Properties:
+      Tags:
+      - Key: Name
+        Value: vpc1-igw
+  InternetGatewayAttachment:
+    Type: 'AWS::EC2::VPCGatewayAttachment'
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref InternetGateway
+  RouteTableWeb: 
+    Type: 'AWS::EC2::RouteTable'
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+      - Key: Name
+        Value: vpc1-rt-web
+  RouteTableWebDefaultIPv4: 
+    Type: 'AWS::EC2::Route'
+    DependsOn: InternetGatewayAttachment
+    Properties:
+      RouteTableId:
+        Ref: RouteTableWeb
+      DestinationCidrBlock: '0.0.0.0/0'
+      GatewayId:
+        Ref: InternetGateway
+  RouteTableWebDefaultIPv6: 
+    Type: 'AWS::EC2::Route'
+    DependsOn: InternetGatewayAttachment
+    Properties:
+      RouteTableId:
+        Ref: RouteTableWeb
+      DestinationIpv6CidrBlock: '::/0'
+      GatewayId:
+        Ref: InternetGateway
+  RouteTableAssociationWebA:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref SubnetWEBA
+      RouteTableId:
+        Ref: RouteTableWeb
+  RouteTableAssociationWebB:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref SubnetWEBB
+      RouteTableId:
+        Ref: RouteTableWeb
+  RouteTableAssociationWebC:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref SubnetWEBC
+      RouteTableId:
+        Ref: RouteTableWeb
   SubnetReservedA:
     Type: AWS::EC2::Subnet
     DependsOn: IPv6CidrBlock
     Properties:
       VpcId: !Ref VPC
-      AvailabilityZone: !Select [0, !GetAZs ""]
+      AvailabilityZone: !Select [ 0, !GetAZs '' ]
       CidrBlock: 10.16.0.0/20
       AssignIpv6AddressOnCreation: true
-      Ipv6CidrBlock:
+      Ipv6CidrBlock: 
         Fn::Sub:
           - "${VpcPart}${SubnetPart}"
-          - SubnetPart: "00::/64"
-            VpcPart:
-              !Select [0,!Split ["00::/56", !Select [0, !GetAtt VPC.Ipv6CidrBlocks]],]
+          - SubnetPart: '00::/64'
+            VpcPart: !Select [ 0, !Split [ '00::/56', !Select [ 0, !GetAtt VPC.Ipv6CidrBlocks ]]]
       Tags:
         - Key: Name
-          Value: subnet-reserved-A
+          Value: sn-reserved-A
   SubnetReservedB:
     Type: AWS::EC2::Subnet
     DependsOn: IPv6CidrBlock
     Properties:
       VpcId: !Ref VPC
-      AvailabilityZone: !Select [1, !GetAZs ""]
+      AvailabilityZone: !Select [ 1, !GetAZs '' ]
       CidrBlock: 10.16.64.0/20
       AssignIpv6AddressOnCreation: true
-      Ipv6CidrBlock:
+      Ipv6CidrBlock: 
         Fn::Sub:
           - "${VpcPart}${SubnetPart}"
-          - SubnetPart: "04::/64"
-            VpcPart:
-              !Select [0,!Split ["00::/56", !Select [0, !GetAtt VPC.Ipv6CidrBlocks]],]
+          - SubnetPart: '04::/64'
+            VpcPart: !Select [ 0, !Split [ '00::/56', !Select [ 0, !GetAtt VPC.Ipv6CidrBlocks ]]]
       Tags:
         - Key: Name
-          Value: subnet-reserved-B
+          Value: sn-reserved-B
   SubnetReservedC:
     Type: AWS::EC2::Subnet
     DependsOn: IPv6CidrBlock
     Properties:
       VpcId: !Ref VPC
-      AvailabilityZone: !Select [2, !GetAZs ""]
+      AvailabilityZone: !Select [ 2, !GetAZs '' ]
       CidrBlock: 10.16.128.0/20
       AssignIpv6AddressOnCreation: true
-      Ipv6CidrBlock:
+      Ipv6CidrBlock: 
         Fn::Sub:
           - "${VpcPart}${SubnetPart}"
-          - SubnetPart: "08::/64"
-            VpcPart:
-              !Select [0,!Split ["00::/56", !Select [0, !GetAtt VPC.Ipv6CidrBlocks]],]
+          - SubnetPart: '08::/64'
+            VpcPart: !Select [ 0, !Split [ '00::/56', !Select [ 0, !GetAtt VPC.Ipv6CidrBlocks ]]]
       Tags:
         - Key: Name
-          Value: subnet-reserved-C
+          Value: sn-reserved-C
   SubnetDBA:
     Type: AWS::EC2::Subnet
     DependsOn: IPv6CidrBlock
     Properties:
       VpcId: !Ref VPC
-      AvailabilityZone: !Select [0, !GetAZs ""]
+      AvailabilityZone: !Select [ 0, !GetAZs '' ]
       CidrBlock: 10.16.16.0/20
       AssignIpv6AddressOnCreation: true
-      Ipv6CidrBlock:
+      Ipv6CidrBlock: 
         Fn::Sub:
           - "${VpcPart}${SubnetPart}"
-          - SubnetPart: "01::/64"
-            VpcPart:
-              !Select [0,!Split ["00::/56", !Select [0, !GetAtt VPC.Ipv6CidrBlocks]],]
+          - SubnetPart: '01::/64'
+            VpcPart: !Select [ 0, !Split [ '00::/56', !Select [ 0, !GetAtt VPC.Ipv6CidrBlocks ]]]
       Tags:
         - Key: Name
-          Value: subnet-db-A
+          Value: sn-db-A
   SubnetDBB:
     Type: AWS::EC2::Subnet
     DependsOn: IPv6CidrBlock
     Properties:
       VpcId: !Ref VPC
-      AvailabilityZone: !Select [1, !GetAZs ""]
+      AvailabilityZone: !Select [ 1, !GetAZs '' ]
       CidrBlock: 10.16.80.0/20
       AssignIpv6AddressOnCreation: true
-      Ipv6CidrBlock:
+      Ipv6CidrBlock: 
         Fn::Sub:
           - "${VpcPart}${SubnetPart}"
-          - SubnetPart: "05::/64"
-            VpcPart:
-              !Select [0,!Split ["00::/56", !Select [0, !GetAtt VPC.Ipv6CidrBlocks]],]
+          - SubnetPart: '05::/64'
+            VpcPart: !Select [ 0, !Split [ '00::/56', !Select [ 0, !GetAtt VPC.Ipv6CidrBlocks ]]]
       Tags:
         - Key: Name
-          Value: subnet-db-B
+          Value: sn-db-B
   SubnetDBC:
     Type: AWS::EC2::Subnet
     DependsOn: IPv6CidrBlock
     Properties:
       VpcId: !Ref VPC
-      AvailabilityZone: !Select [2, !GetAZs ""]
+      AvailabilityZone: !Select [ 2, !GetAZs '' ]
       CidrBlock: 10.16.144.0/20
       AssignIpv6AddressOnCreation: true
-      Ipv6CidrBlock:
+      Ipv6CidrBlock: 
         Fn::Sub:
           - "${VpcPart}${SubnetPart}"
-          - SubnetPart: "09::/64"
-            VpcPart:
-              !Select [0,!Split ["00::/56", !Select [0, !GetAtt VPC.Ipv6CidrBlocks]],]
+          - SubnetPart: '09::/64'
+            VpcPart: !Select [ 0, !Split [ '00::/56', !Select [ 0, !GetAtt VPC.Ipv6CidrBlocks ]]]
       Tags:
         - Key: Name
-          Value: subnet-db-C
+          Value: sn-db-C
   SubnetAPPA:
     Type: AWS::EC2::Subnet
     DependsOn: IPv6CidrBlock
     Properties:
       VpcId: !Ref VPC
-      AvailabilityZone: !Select [0, !GetAZs ""]
+      AvailabilityZone: !Select [ 0, !GetAZs '' ]
       CidrBlock: 10.16.32.0/20
       AssignIpv6AddressOnCreation: true
-      Ipv6CidrBlock:
+      Ipv6CidrBlock: 
         Fn::Sub:
           - "${VpcPart}${SubnetPart}"
-          - SubnetPart: "02::/64"
-            VpcPart:
-              !Select [0,!Split ["00::/56", !Select [0, !GetAtt VPC.Ipv6CidrBlocks]],]
+          - SubnetPart: '02::/64'
+            VpcPart: !Select [ 0, !Split [ '00::/56', !Select [ 0, !GetAtt VPC.Ipv6CidrBlocks ]]]
       Tags:
         - Key: Name
-          Value: subnet-app-A
+          Value: sn-app-A
   SubnetAPPB:
     Type: AWS::EC2::Subnet
     DependsOn: IPv6CidrBlock
     Properties:
       VpcId: !Ref VPC
-      AvailabilityZone: !Select [1, !GetAZs ""]
+      AvailabilityZone: !Select [ 1, !GetAZs '' ]
       CidrBlock: 10.16.96.0/20
       AssignIpv6AddressOnCreation: true
-      Ipv6CidrBlock:
+      Ipv6CidrBlock: 
         Fn::Sub:
           - "${VpcPart}${SubnetPart}"
-          - SubnetPart: "06::/64"
-            VpcPart:
-              !Select [0,!Split ["00::/56", !Select [0, !GetAtt VPC.Ipv6CidrBlocks]],]
+          - SubnetPart: '06::/64'
+            VpcPart: !Select [ 0, !Split [ '00::/56', !Select [ 0, !GetAtt VPC.Ipv6CidrBlocks ]]]
       Tags:
         - Key: Name
-          Value: subnet-app-B
+          Value: sn-app-B
   SubnetAPPC:
     Type: AWS::EC2::Subnet
     DependsOn: IPv6CidrBlock
     Properties:
       VpcId: !Ref VPC
-      AvailabilityZone: !Select [2, !GetAZs ""]
+      AvailabilityZone: !Select [ 2, !GetAZs '' ]
       CidrBlock: 10.16.160.0/20
       AssignIpv6AddressOnCreation: true
-      Ipv6CidrBlock:
+      Ipv6CidrBlock: 
         Fn::Sub:
           - "${VpcPart}${SubnetPart}"
-          - SubnetPart: "0A::/64"
-            VpcPart:
-              !Select [0,!Split ["00::/56", !Select [0, !GetAtt VPC.Ipv6CidrBlocks]],]
+          - SubnetPart: '0A::/64'
+            VpcPart: !Select [ 0, !Split [ '00::/56', !Select [ 0, !GetAtt VPC.Ipv6CidrBlocks ]]]
       Tags:
         - Key: Name
-          Value: subnet-app-C
+          Value: sn-app-C
   SubnetWEBA:
     Type: AWS::EC2::Subnet
     DependsOn: IPv6CidrBlock
     Properties:
       VpcId: !Ref VPC
-      AvailabilityZone: !Select [0, !GetAZs ""]
+      AvailabilityZone: !Select [ 0, !GetAZs '' ]
       CidrBlock: 10.16.48.0/20
-      AssignIpv6AddressOnCreation: true
-      Ipv6CidrBlock:
+      MapPublicIpOnLaunch: true
+      Ipv6CidrBlock: 
         Fn::Sub:
           - "${VpcPart}${SubnetPart}"
-          - SubnetPart: "03::/64"
-            VpcPart:
-              !Select [0,!Split ["00::/56", !Select [0, !GetAtt VPC.Ipv6CidrBlocks]],]
+          - SubnetPart: '03::/64'
+            VpcPart: !Select [ 0, !Split [ '00::/56', !Select [ 0, !GetAtt VPC.Ipv6CidrBlocks ]]]
       Tags:
         - Key: Name
-          Value: subnet-web-A
+          Value: sn-web-A
   SubnetWEBB:
     Type: AWS::EC2::Subnet
     DependsOn: IPv6CidrBlock
     Properties:
       VpcId: !Ref VPC
-      AvailabilityZone: !Select [1, !GetAZs ""]
+      AvailabilityZone: !Select [ 1, !GetAZs '' ]
       CidrBlock: 10.16.112.0/20
-      AssignIpv6AddressOnCreation: true
-      Ipv6CidrBlock:
+      MapPublicIpOnLaunch: true
+      Ipv6CidrBlock: 
         Fn::Sub:
           - "${VpcPart}${SubnetPart}"
-          - SubnetPart: "07::/64"
-            VpcPart:
-              !Select [0,!Split ["00::/56", !Select [0, !GetAtt VPC.Ipv6CidrBlocks]],]
+          - SubnetPart: '07::/64'
+            VpcPart: !Select [ 0, !Split [ '00::/56', !Select [ 0, !GetAtt VPC.Ipv6CidrBlocks ]]]
       Tags:
         - Key: Name
-          Value: subnet-web-B
+          Value: sn-web-B
   SubnetWEBC:
     Type: AWS::EC2::Subnet
     DependsOn: IPv6CidrBlock
     Properties:
       VpcId: !Ref VPC
-      AvailabilityZone: !Select [2, !GetAZs ""]
+      AvailabilityZone: !Select [ 2, !GetAZs '' ]
       CidrBlock: 10.16.176.0/20
-      AssignIpv6AddressOnCreation: true
-      Ipv6CidrBlock:
+      MapPublicIpOnLaunch: true
+      Ipv6CidrBlock: 
         Fn::Sub:
           - "${VpcPart}${SubnetPart}"
-          - SubnetPart: "0B::/64"
-            VpcPart:
-              !Select [0,!Split ["00::/56", !Select [0, !GetAtt VPC.Ipv6CidrBlocks]],]
+          - SubnetPart: '0B::/64'
+            VpcPart: !Select [ 0, !Split [ '00::/56', !Select [ 0, !GetAtt VPC.Ipv6CidrBlocks ]]]
       Tags:
         - Key: Name
-          Value: subnet-web-C
+          Value: sn-web-C
+  IPv6WorkaroundSubnetWEBA:
+    Type: Custom::SubnetModify
+    Properties:
+      ServiceToken: !GetAtt IPv6WorkaroundLambda.Arn
+      SubnetId: !Ref SubnetWEBA
+  IPv6WorkaroundSubnetWEBB:
+    Type: Custom::SubnetModify
+    Properties:
+      ServiceToken: !GetAtt IPv6WorkaroundLambda.Arn
+      SubnetId: !Ref SubnetWEBB
+  IPv6WorkaroundSubnetWEBC:
+    Type: Custom::SubnetModify
+    Properties:
+      ServiceToken: !GetAtt IPv6WorkaroundLambda.Arn
+      SubnetId: !Ref SubnetWEBC
+  IPv6WorkaroundRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Path: "/"
+      Policies:
+        - PolicyName: !Sub "ipv6-fix-logs-${AWS::StackName}"
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+            - Effect: Allow
+              Action:
+              - logs:CreateLogGroup
+              - logs:CreateLogStream
+              - logs:PutLogEvents
+              Resource: arn:aws:logs:*:*:*
+        - PolicyName: !Sub "ipv6-fix-modify-${AWS::StackName}"
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+            - Effect: Allow
+              Action:
+              - ec2:ModifySubnetAttribute
+              Resource: "*"
+  IPv6WorkaroundLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: "index.lambda_handler"
+      Code: #import cfnresponse below required to send respose back to CFN
+        ZipFile:
+          Fn::Sub: |
+            import cfnresponse
+            import boto3
+
+            def lambda_handler(event, context):
+                if event['RequestType'] is 'Delete':
+                  cfnresponse.send(event, context, cfnresponse.SUCCESS)
+                  return
+
+                responseValue = event['ResourceProperties']['SubnetId']
+                ec2 = boto3.client('ec2', region_name='${AWS::Region}')
+                ec2.modify_subnet_attribute(AssignIpv6AddressOnCreation={
+                                                'Value': True
+                                              },
+                                              SubnetId=responseValue)
+                responseData = {}
+                responseData['SubnetId'] = responseValue
+                cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData, "CustomResourcePhysicalID")
+      Runtime: python3.9
+      Role: !GetAtt IPv6WorkaroundRole.Arn
+      Timeout: 30
+Outputs:
+  vpc1:
+    Description: VPC1_ID
+    Value: !Ref VPC
+    Export: 
+      Name: vpc1
+  vpc1subnetweba:
+    Description: VPC1 SubnetWEBA
+    Value: !Ref SubnetWEBA
+    Export:
+      Name: vpc1-subnet-weba
+  vpc1subnetwebb:
+    Description: VPC1 SubnetWEBB
+    Value: !Ref SubnetWEBB
+    Export:
+      Name: vpc1-subnet-webb
+  vpc1subnetwebc:
+    Description: VPC1 SubnetWEBC
+    Value: !Ref SubnetWEBC
+    Export:
+      Name: vpc1-subnet-webc
+  vpc1subnetappa:
+    Description: VPC1 SubnetAPPA
+    Value: !Ref SubnetAPPA
+    Export:
+      Name: vpc1-subnet-appa
+  vpc1subnetappb:
+    Description: VPC1 SubnetAPPB
+    Value: !Ref SubnetAPPB
+    Export:
+      Name: vpc1-subnet-appb
+  vpc1subnetappc:
+    Description: VPC1 SubnetAPPC
+    Value: !Ref SubnetAPPC
+    Export:
+      Name: vpc1-subnet-appc
+  vpc1subnetdba:
+    Description: VPC1 SubnetDBA
+    Value: !Ref SubnetDBA
+    Export:
+      Name: vpc1-subnet-dba
+  vpc1subnetdbb:
+    Description: VPC1 SubnetDBB
+    Value: !Ref SubnetDBB
+    Export:
+      Name: vpc1-subnet-dbb
+  vpc1subnetdbc:
+    Description: VPC1 SubnetDBC
+    Value: !Ref SubnetDBC
+    Export:
+      Name: vpc1-subnet-dbc
+  vpc1subnetreserveda:
+    Description: VPC1 SubnetReservedA
+    Value: !Ref SubnetReservedA
+    Export:
+      Name: vpc1-subnet-reserveda
+  vpc1subnetreservedb:
+    Description: VPC1 SubnetReservedB
+    Value: !Ref SubnetReservedB
+    Export:
+      Name: vpc1-subnet-reservedb
+  vpc1subnetreservedc:
+    Description: VPC1 SubnetReservedC
+    Value: !Ref SubnetReservedC
+    Export:
+      Name: vpc1-subnet-reservedc

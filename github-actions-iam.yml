@@ -37,18 +37,34 @@ Resources:
                   - cloudformation:UpdateStack
                   - cloudformation:ValidateTemplate
                   - cloudformation:CreateChangeSet
+                  - cloudformation:DescribeChangeSet
+                  - cloudformation:ExecuteChangeSet
                 Resource: "*"
               - Effect: "Allow"
                 Action:
-                  - ec2:CreateVpc
-                  - ec2:CreateSubnet
-                  - ec2:DescribeAvailabilityZones
-                  - ec2:CreateRouteTable
-                  - ec2:CreateRoute
-                  - ec2:CreateInternetGateway 
-                  - ec2:AttachInternetGateway 
-                  - ec2:AssociateRouteTable 
-                  - ec2:ModifyVpcAttribute
+                  # - ec2:DescribeVpcs
+                  # - ec2:CreateVpc
+                  # - ec2:DeleteVpc
+                  # - ec2:CreateSubnet
+                  # - ec2:DescribeSubnets
+                  # - ec2:DeleteSubnet
+                  # - ec2:DescribeAvailabilityZones
+                  # - ec2:CreateRouteTable
+                  # - ec2:DescribeRouteTables
+                  # - ec2:DeleteRouteTable
+                  # - ec2:DescribeRoutes
+                  # - ec2:CreateRoute
+                  # - ec2:DeleteRoute
+                  # - ec2:DescribeInternetGateways
+                  # - ec2:CreatenternetGateway
+                  # - ec2:DeleteInternetGateway
+                  # - ec2:AttachInternetGateway
+                  # - ec2:AssociateRouteTable
+                  # - ec2:ModifyVpcAttribute
+                  # - ec2:CreateTags
+                  # - ec2:DeleteTags
+                  # - ec2:AssociateVpcCidrBlockRequest
+                  - ec2:*
                 Resource: "*"
   GithubActionsPolicy:
     Type: AWS::IAM::Policy
