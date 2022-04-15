@@ -6,7 +6,7 @@ on:
   push:
     branches:
       - main
-  # Allows you to run this workflow manually from the Actions tab
+  # Run this workflow manually from the Actions tab
   workflow_dispatch:
     # inputs:
     #   region:
@@ -17,7 +17,6 @@ on:
       #   description: "S3 Bucket Name"
       #   required: true
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   cfn-deployment:
     runs-on: ubuntu-latest
@@ -35,11 +34,11 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           role-duration-seconds: 1200
           role-session-name: GithubActionSession
-      - name: Deploy CloudFormation Stacks
-        id: aws-lab-master
+      - name: Deploy VPC
+        id: vpc
         uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
         with:
-          name: aws-lab-master
+          name: vpc
           template: cloudformation-templates/vpc.yml
           # parameter-overrides: >-
           #   BucketName=${{ github.event.inputs.bucketName }}

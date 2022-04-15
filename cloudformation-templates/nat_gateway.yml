@@ -112,5 +112,3 @@ Resources:
     Properties:
       SubnetId: !ImportValue a4l-vpc1-subnet-dbc
       RouteTableId: !Ref RouteTablePrivateC
-
- 
