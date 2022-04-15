@@ -70,45 +70,45 @@ Resources:
   RouteTableAssociationReservedA:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
-      SubnetId: !ImportValue a4l-vpc1-subnet-reserveda
+      SubnetId: !ImportValue vpc1-subnet-reserveda
       RouteTableId: !Ref RouteTablePrivateA
   RouteTableAssociationAppA:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
-      SubnetId: !ImportValue a4l-vpc1-subnet-appa
+      SubnetId: !ImportValue vpc1-subnet-appa
       RouteTableId: !Ref RouteTablePrivateA
   RouteTableAssociationDBA:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
-      SubnetId: !ImportValue a4l-vpc1-subnet-dba
+      SubnetId: !ImportValue vpc1-subnet-dba
       RouteTableId: !Ref RouteTablePrivateA
   RouteTableAssociationReservedB:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
-      SubnetId: !ImportValue a4l-vpc1-subnet-reservedb
+      SubnetId: !ImportValue vpc1-subnet-reservedb
       RouteTableId: !Ref RouteTablePrivateB
   RouteTableAssociationAppB:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
-      SubnetId: !ImportValue a4l-vpc1-subnet-appb
+      SubnetId: !ImportValue vpc1-subnet-appb
       RouteTableId: !Ref RouteTablePrivateB
   RouteTableAssociationDBB:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
-      SubnetId: !ImportValue a4l-vpc1-subnet-dbb
+      SubnetId: !ImportValue vpc1-subnet-dbb
       RouteTableId: !Ref RouteTablePrivateB
   RouteTableAssociationReservedC:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
-      SubnetId: !ImportValue a4l-vpc1-subnet-reservedc
+      SubnetId: !ImportValue vpc1-subnet-reservedc
       RouteTableId: !Ref RouteTablePrivateC
   RouteTableAssociationAppC:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
-      SubnetId: !ImportValue a4l-vpc1-subnet-appc
+      SubnetId: !ImportValue vpc1-subnet-appc
       RouteTableId: !Ref RouteTablePrivateC
   RouteTableAssociationDBC:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
-      SubnetId: !ImportValue a4l-vpc1-subnet-dbc
+      SubnetId: !ImportValue vpc1-subnet-dbc
       RouteTableId: !Ref RouteTablePrivateC
