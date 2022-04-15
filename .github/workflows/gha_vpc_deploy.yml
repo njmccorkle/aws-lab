@@ -1,4 +1,4 @@
-name: Deploy CloudFormation Stacks
+name: Deploy VPC
 
 # Controls when the action will run.
 on:
