@@ -38,7 +38,7 @@ jobs:
         id: vpc
         uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
         with:
-          name: vpc
+          name: VPC
           template: cloudformation-templates/vpc.yml
           # parameter-overrides: >-
           #   BucketName=${{ github.event.inputs.bucketName }}

@@ -33,7 +33,7 @@ jobs:
         id: nat_gateway
         uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
         with:
-          name: nat_gateway
+          name: NATGateway
           template: cloudformation-templates/NATGateways.yml
           # parameter-overrides: >-
           #   BucketName=${{ github.event.inputs.bucketName }}
